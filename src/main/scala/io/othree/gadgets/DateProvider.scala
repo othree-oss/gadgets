@@ -1,4 +1,4 @@
-package othree.gadgets
+package io.othree.gadgets
 
 import java.sql.Date
 import java.text.SimpleDateFormat

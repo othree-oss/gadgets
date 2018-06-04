@@ -1,4 +1,4 @@
-package othree.gadgets
+package io.othree.gadgets
 
 import io.othree.aok.BaseTest
 import org.junit.runner.RunWith

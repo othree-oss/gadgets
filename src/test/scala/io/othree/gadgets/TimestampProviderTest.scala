@@ -1,48 +1,48 @@
-package othree.gadgets
+package io.othree.gadgets
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import java.sql.Date
+import java.sql.Timestamp
 import java.util.{Calendar, TimeZone}
 
 import io.othree.aok.BaseTest
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class DateProviderTest extends BaseTest {
+class TimestampProviderTest extends BaseTest {
 
-  val dateProvider = new DateProvider
+  val dateProvider = new TimestampProvider
 
   "DateProvider" when {
     "getting the current time" must {
-      "return the current date" in {
+      "return the current timestamp" in {
         val now = dateProvider.now
 
-        now shouldBe a[Date]
+        now shouldBe a[Timestamp]
       }
     }
 
     "adding to the current time" must {
-      "return a date with the seconds added" in {
+      "return a timestamp with the seconds added" in {
         val later = dateProvider.addToNow(1000)
 
-        later shouldBe a[Date]
+        later shouldBe a[Timestamp]
       }
     }
 
-    "converting a valid String to date" must {
-      "return a valid Date" in {
+    "converting a valid String to Timestamp" must {
+      "return a valid Timestamp" in {
         val date = dateProvider.fromIso8601("1984-07-16T06:00:00.000Z")
-        date.get shouldBe a[Date]
+        date.get shouldBe a[Timestamp]
       }
     }
-    "conerting an unvalid String to date" must {
+    "conerting an unvalid String to Timestamp" must {
       "return a None" in {
         val date = dateProvider.fromIso8601("NotAValidString")
         date shouldBe None
       }
     }
 
-    "converting a Date to String" must {
+    "converting a Timestamp to String" must {
       "return a valid formatedString" in {
         val now = dateProvider.now
         val date = dateProvider.toIso8601(now)
@@ -52,17 +52,17 @@ class DateProviderTest extends BaseTest {
     }
 
     "adding to a date" must {
-      "return a valid Date" in {
+      "return a valid TimeStamp" in {
 
-        val date = dateProvider.addToDate(Date.valueOf("2018-02-26"), 86400)
+        val date = dateProvider.addToDate(Timestamp.valueOf("2018-02-26 00:00:00"), 86400)
 
-        date shouldBe a[Date]
+        date shouldBe a[Timestamp]
       }
     }
 
     "getting the quantity of days between two dates" must {
       "return the number of days" in {
-        val number = dateProvider.getNumberOfDays(Date.valueOf("2018-02-26"), Date.valueOf("2018-02-28"))
+        val number = dateProvider.getNumberOfDays(Timestamp.valueOf("2018-02-26 00:00:00"), Timestamp.valueOf("2018-02-28 00:00:00"))
 
         number shouldBe 2
       }
@@ -74,10 +74,9 @@ class DateProviderTest extends BaseTest {
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"))
         calendar.set(2018, 2, 26, 0, 0, 0)
 
-        val formatted = dateProvider.toTimeZone("yyyy-MM-dd", "GMT-6", new Date(calendar.getTimeInMillis))
-        formatted shouldBe "2018-03-25"
+        val formatted = dateProvider.toTimeZone("yyyy-MM-dd hh:mm:ss", "GMT-6", new Timestamp(calendar.getTimeInMillis))
+        formatted shouldBe "2018-03-25 06:00:00"
       }
     }
   }
-
 }

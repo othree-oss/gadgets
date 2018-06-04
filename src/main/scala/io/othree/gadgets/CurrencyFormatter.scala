@@ -1,4 +1,4 @@
-package othree.gadgets
+package io.othree.gadgets
 
 import java.util.Currency
 
